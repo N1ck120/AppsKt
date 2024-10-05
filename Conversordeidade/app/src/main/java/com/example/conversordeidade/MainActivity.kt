@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             }else{
                 val result : Int
                 result = (anos.text.toString().toInt() * 360) + (meses.text.toString().toInt() * 30) + dias.text.toString().toInt()
-                resultado.text = "Sua idad etotal em dias é $result"
+                resultado.text = "Sua idade total em dias é $result"
             }
         }
     }
