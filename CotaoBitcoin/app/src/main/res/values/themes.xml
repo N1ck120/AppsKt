@@ -3,7 +3,10 @@
     <style name="Base.Theme.CotaçãoBitcoin" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="android:windowBackground">#E3F2FD</item>
+        <item name="android:textColor">@color/black</item>
     </style>
-
     <style name="Theme.CotaçãoBitcoin" parent="Base.Theme.CotaçãoBitcoin" />
 </resources>
