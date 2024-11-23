@@ -34,15 +34,15 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val API_URL = "https://api.hgbrasil.com/finance"
+        val API_URL = "https://api.hgbrasil.com/finance?key=c6f43658"
         var cotacao = 0.0
 
-        val txtcotacao = findViewById<TextView>(R.id.BitcoinVal)
-        val txtQtdBitcoins = findViewById<TextView>(R.id.Result)
+        val txtcotacao = findViewById<TextView>(R.id.valor)
+        val txtQtdBitcoins = findViewById<TextView>(R.id.result)
         val txtValor = findViewById<EditText>(R.id.editTextNumber)
-        val moeda = findViewById<TextView>(R.id.textView5)
+        val moedaconv = findViewById<TextView>(R.id.moedaConversao)
 
-        val currency = findViewById<Spinner>(R.id.spinner2)
+        val currency = findViewById<Spinner>(R.id.moedas)
 
         currency.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, listOf("BTC", "USD", "EUR"))
 
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 val f = NumberFormat.getCurrencyInstance(Locale("pt", "br"))
                 val cotacaoFormatada = f.format(cotacao)
 
-                txtcotacao.setText(cotacaoFormatada)
+                txtcotacao.text = cotacaoFormatada
 
                 withContext(Main){}
             }
@@ -72,32 +72,55 @@ class MainActivity : AppCompatActivity() {
             else 0.0
 
             when (currency.selectedItem.toString()) {
-                "USD" -> {
-                    txtQtdBitcoins.text = currency.selectedItem.toString() + " %.2f".format(resultado).replace(",", ".")
-                }
                 "BTC" -> {
                     txtQtdBitcoins.text = currency.selectedItem.toString() + " %.8f".format(resultado).replace(",", ".")
+                }
+                "USD" -> {
+                    txtQtdBitcoins.text = currency.selectedItem.toString() + " %.2f".format(resultado).replace(",", ".")
                 }
                 "EUR" -> {
                     txtQtdBitcoins.text = currency.selectedItem.toString() + " %.2f".format(resultado).replace(",", ".")
                 }
-
             }
+        }
 
+        fun front(){
+            when (currency.selectedItem.toString()) {
+                "BTC" -> {
+                    moedaconv.text = "Quantidade de Bitcoins"
+                    if(txtValor.text.isEmpty() || txtValor.text.toString().toDouble() == 0.0){
+                        txtQtdBitcoins.text = "BTC 0.00000000"
+                    }
+                }
+                "USD" -> {
+                    moedaconv.text = "Quantidade de Dólares"
+                    if(txtValor.text.isEmpty() || txtValor.text.toString().toDouble() == 0.0){
+                        txtQtdBitcoins.text = "USD 0.00"
+                    }
+                }
+                "EUR" -> {
+                    moedaconv.text = "Quantidade de Euros"
+                    if(txtValor.text.isEmpty() || txtValor.text.toString().toDouble() == 0.0){
+                        txtQtdBitcoins.text = "EUR 0.00"
+                    }
+                }
+            }
         }
 
         currency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
+                front()
                 buscarcotacao()
                 calcular()
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>) {
-
+                front()
             }
         }
 
         txtValor.doAfterTextChanged {
+            front()
             buscarcotacao()
             calcular()
         }
